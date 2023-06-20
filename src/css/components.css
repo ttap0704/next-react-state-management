@@ -1,0 +1,26 @@
+/* 컴포넌트 */
+#login-wrapper {
+  width: 100%;
+  height: calc(100% - 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 3rem;
+
+  .login-input,
+  button {
+    width: 100%;
+    max-width: 15rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+  }
+  .login-input {
+    border: 1px solid;
+    border-color: #e0e0e0;
+  }
+  button {
+    background-color: #a0dbef;
+    color: #fff;
+  }
+}
