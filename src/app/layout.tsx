@@ -13,8 +13,8 @@ export const metadata = {
 function Header() {
   const header_title: {[key: string]: string} = {
     "/": "HOME",
-    "/todo": "TODO",
-    "/users/login": "LOGIN",
+    "/todos": "TODO",
+    "/login": "LOGIN",
     "/users/join": "JOIN",
   };
   const header_list = headers();

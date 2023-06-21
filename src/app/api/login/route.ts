@@ -18,5 +18,13 @@ export async function POST(request: Request) {
     ret.id = 10000;
   }
 
-  return NextResponse.json(ret);
+  const response = NextResponse.json(ret);
+  response.cookies.set({
+    name: "jwt",
+    value: "testset", // 로그인 시 토큰 (임시),
+    expires: new Date().getTime() + 1000 * 60 * 60 * 24,
+    path: "/",
+  });
+
+  return response;
 }

@@ -1,14 +1,12 @@
 "use client";
 
-import useUsersLoginMudation from "@/queries/useUsersLoginMutation";
-import {fetchPostApi} from "@/utils/api";
-import {useMutation} from "@tanstack/react-query";
+import useLoginMudation from "@/queries/useLoginMutation";
 import React, {useState} from "react";
 
 export default function LayoutLogin() {
   const [logindId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const {mutate} = useUsersLoginMudation({login_id: logindId, login_password: loginPassword});
+  const {mutate} = useLoginMudation({login_id: logindId, login_password: loginPassword});
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.id == "input-login-password") setLoginPassword(e.target.value);
