@@ -8,11 +8,12 @@ export function middleware(request: NextRequest) {
   requestHeaders.get("next-url");
   requestHeaders.set("x-url", path);
 
-  if (!path.includes("/login") && jwt === undefined) {
+  const not_loigin_path = ["/login", "/join"];
+  if (!not_loigin_path.includes(path) && jwt === undefined) {
     return NextResponse.redirect(new URL("/login", request.url), {
       headers: requestHeaders,
     });
-  } else if (path.includes("/login") && jwt) {
+  } else if (not_loigin_path.includes(path) && jwt) {
     return NextResponse.redirect(new URL("/todos", request.url), {
       headers: requestHeaders,
     });
@@ -25,5 +26,5 @@ export function middleware(request: NextRequest) {
   });
 }
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api).*)"],
 };
