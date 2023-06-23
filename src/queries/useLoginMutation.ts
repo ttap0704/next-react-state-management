@@ -1,18 +1,15 @@
-// quires/useLoginMudation.ts
+// quires/useLoginMutation.ts
 import {fetchPostApi} from "@/utils/api";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {NextResponse} from "next/server";
 import {QUERY_KEY as userQueryKey} from "./useUsersQuery";
 
-const fetcher = (data: object) => fetchPostApi(data, "/login");
+const fetcher = (data: object) => fetchPostApi(data, "/users/login");
 
-const useLoginMudation = (data: object) => {
+const useLoginMutation = (data: object) => {
   const queryClient = useQueryClient();
 
   return useMutation(fetcher, {
-    onMutate: (res) => {
-      console.log(res);
-    },
     onSuccess: async (res: NextResponse) => {
       const user_data: User = await res.json();
       if (user_data.pass) {
@@ -26,4 +23,4 @@ const useLoginMudation = (data: object) => {
   });
 };
 
-export default useLoginMudation;
+export default useLoginMutation;
