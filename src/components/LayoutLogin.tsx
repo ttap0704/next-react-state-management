@@ -1,20 +1,48 @@
 "use client";
 
-import useLoginMudation from "@/queries/useLoginMutation";
-import React, {useState} from "react";
+import useJoinMutation from "@/queries/useJoinMutation";
+import useLoginMutation from "@/queries/useLoginMutation";
+import useUsersQuery from "@/queries/useUsersQuery";
+import {fetchGetApi} from "@/utils/api";
+import React, {useEffect, useState} from "react";
 
 export default function LayoutLogin() {
+  const [join, setJoin] = useState(false);
   const [logindId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const {mutate} = useLoginMudation({login_id: logindId, login_password: loginPassword});
+  const [loginPasswordCheck, setLoginPasswordCheck] = useState("");
+  const loginMutation = useLoginMutation({login_id: logindId, login_password: loginPassword});
+  const joinMutation = useJoinMutation({login_id: logindId, login_password: loginPassword});
+
+  useEffect(() => {
+    setJoin(location.pathname == "/join");
+  }, []);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.id == "input-login-password") setLoginPassword(e.target.value);
     else if (e.target.id == "input-login-id") setLoginId(e.target.value);
+    else setLoginPasswordCheck(e.target.value);
   };
 
-  const loginUser = async () => {
-    mutate({login_id: logindId, login_password: loginPassword});
+  const formHandler = async () => {
+    if (join) {
+      if (logindId.length < 6) {
+        alert("아이디는 6자 이상으로 설정해주세요.");
+        return;
+      }
+      if (loginPassword != loginPasswordCheck) {
+        alert("비밀번호가 맞지 않습니다.");
+        return;
+      }
+      if (loginPassword.length < 8) {
+        alert("비밀번호는 8자 이상으로 설정해주세요.");
+        return;
+      }
+
+      joinMutation.mutate({login_id: logindId, login_password: loginPassword});
+    } else {
+      loginMutation.mutate({login_id: logindId, login_password: loginPassword});
+    }
   };
 
   return (
@@ -35,8 +63,19 @@ export default function LayoutLogin() {
         onChange={handleInput}
         placeholder="비밀번호를 입력해주세요."
       />
-      <button id="login-button" onClick={loginUser}>
-        LOGIN
+      {join ? (
+        <input
+          id="input-login-password-check"
+          className="login-input"
+          value={loginPasswordCheck}
+          type="password"
+          onChange={handleInput}
+          placeholder="비밀번호를 다시 입력해주세요."
+        />
+      ) : null}
+
+      <button id="login-button" onClick={formHandler}>
+        {join ? "회원가입" : "로그인"}
       </button>
     </div>
   );

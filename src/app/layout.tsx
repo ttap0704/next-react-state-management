@@ -14,6 +14,7 @@ function Header() {
   const header_title: {[key: string]: string} = {
     "/": "HOME",
     "/todos": "TODO",
+    "/join": "JOIN",
     "/login": "LOGIN",
     "/users/join": "JOIN",
   };
