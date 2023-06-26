@@ -4,6 +4,7 @@ import useJoinMutation from "@/queries/useJoinMutation";
 import useLoginMutation from "@/queries/useLoginMutation";
 import useUsersQuery from "@/queries/useUsersQuery";
 import {fetchGetApi} from "@/utils/api";
+import Link from "next/link";
 import React, {useEffect, useState} from "react";
 
 export default function LayoutLogin() {
@@ -77,6 +78,7 @@ export default function LayoutLogin() {
       <button id="login-button" onClick={formHandler}>
         {join ? "회원가입" : "로그인"}
       </button>
+      <Link href={join ? "/login" : "/join"}>{join ? "로그인하러 가기" : "회원가입하러 가기"}</Link>
     </div>
   );
 }

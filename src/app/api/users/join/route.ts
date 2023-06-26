@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     values: [join_data.login_id, password],
   });
 
-  if (join_res.affectedRows >= 1) {
+  if (join_res.affectedRows == 1) {
     return NextResponse.json({
       pass: true,
       message: "회원가입이 완료되었습니다.",

@@ -3,9 +3,16 @@ type ApiResponse = {
   data: any;
 };
 
-type User = {
+type UserModel = {
   id: number;
   login_id: string;
-  name: string;
+  password: string;
+  created_at: string;
+};
+
+type UserClient = {
+  id: number;
+  login_id: string;
+  created_at: string;
   pass: boolean;
 };

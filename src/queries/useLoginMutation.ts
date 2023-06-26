@@ -11,7 +11,8 @@ const useLoginMutation = (data: object) => {
 
   return useMutation(fetcher, {
     onSuccess: async (res: NextResponse) => {
-      const user_data: User = await res.json();
+      const user_data: UserClient = await res.json();
+      console.log(user_data);
       if (user_data.pass) {
         queryClient.invalidateQueries([userQueryKey]);
         localStorage.setItem("user", JSON.stringify(user_data));

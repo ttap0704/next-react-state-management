@@ -7,6 +7,7 @@ export default function Home() {
   const {data} = useUsersQuery();
 
   useEffect(() => {
+    console.log(data);
     if (data !== undefined) {
       console.log(data);
     }

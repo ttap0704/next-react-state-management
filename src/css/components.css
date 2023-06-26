@@ -9,7 +9,7 @@
   padding-top: 3rem;
 
   .login-input,
-  button {
+  #login-button {
     width: 100%;
     max-width: 15rem;
     height: 3rem;
@@ -19,8 +19,43 @@
     border: 1px solid;
     border-color: #e0e0e0;
   }
-  button {
+  #login-button {
     background-color: #a0dbef;
     color: #fff;
+  }
+
+  a {
+    color: #a0dbef;
+    text-decoration: underline;
+    font-size: 0.9rem;
+  }
+}
+
+#todo-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  #todo-input-wrapper {
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    input {
+      width: 100%;
+      border: 1px solid;
+      border-color: #ddd;
+      border-radius: 0.5rem;
+    }
+
+    button {
+      background-color: #a0dbef;
+      color: #fff;
+      padding: 0 0.5rem;
+      border-radius: 0.5rem;
+    }
   }
 }
