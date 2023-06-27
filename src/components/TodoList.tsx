@@ -1,7 +1,6 @@
 "use client";
 
 import useTodosQuery from "@/queries/useTodosQuery";
-import {useEffect} from "react";
 import TodoInput from "./TodoInput";
 
 export default function TodoList() {
@@ -10,6 +9,7 @@ export default function TodoList() {
   return (
     <div id="todo-wrapper">
       <TodoInput />
+      testestestes
     </div>
   );
 }

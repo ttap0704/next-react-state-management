@@ -2,8 +2,6 @@
 
 import useJoinMutation from "@/queries/useJoinMutation";
 import useLoginMutation from "@/queries/useLoginMutation";
-import useUsersQuery from "@/queries/useUsersQuery";
-import {fetchGetApi} from "@/utils/api";
 import Link from "next/link";
 import React, {useEffect, useState} from "react";
 
@@ -12,8 +10,8 @@ export default function LayoutLogin() {
   const [logindId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginPasswordCheck, setLoginPasswordCheck] = useState("");
-  const loginMutation = useLoginMutation({login_id: logindId, login_password: loginPassword});
-  const joinMutation = useJoinMutation({login_id: logindId, login_password: loginPassword});
+  const loginMutation = useLoginMutation();
+  const joinMutation = useJoinMutation();
 
   useEffect(() => {
     setJoin(location.pathname == "/join");

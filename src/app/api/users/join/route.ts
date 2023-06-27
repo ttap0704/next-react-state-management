@@ -3,7 +3,7 @@ import {hash} from "../../bcrypt";
 import db from "../../db";
 
 export async function POST(request: Request) {
-  const data: ApiResponse = await request.json();
+  const data: ApiRequestBody = await request.json();
   const join_data = {...data.data};
 
   const check_login_id: any[] = await db.query({

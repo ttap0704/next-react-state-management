@@ -5,7 +5,7 @@ import {NextResponse} from "next/server";
 
 const fetcher = (data: object) => fetchPostApi(data, "/users/join");
 
-const useJoinMutation = (data: object) => {
+const useJoinMutation = () => {
   return useMutation(fetcher, {
     onSuccess: async (res: NextResponse) => {
       const user_data: {pass: boolean; message: string} = await res.json();

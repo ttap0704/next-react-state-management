@@ -13,6 +13,8 @@ export async function middleware(request: NextRequest) {
     const not_loigin_server_path = ["/users/login", "/users/join"];
     if (!not_loigin_server_path.includes(path) && access_token) {
       let pass = false;
+
+      // 기간 만료되면 error 발생하여 try/catch로 처리
       try {
         const verify_res = await verify(access_token.value);
         if (verify_res) pass = true;

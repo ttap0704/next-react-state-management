@@ -4,7 +4,7 @@ import db from "../../db";
 import {sign} from "../../jwt";
 
 export async function POST(request: Request) {
-  const data: ApiResponse = await request.json();
+  const data: ApiRequestBody = await request.json();
 
   const login_data: {login_id: string; login_password: string} = data.data;
   let pass = false;
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
 
   const response = NextResponse.json(user);
   if (pass) {
-    const token = await sign(JSON.stringify({id: user.id, login_id: user.login_id}));
+    const token = await sign(JSON.stringify({...user}));
     response.cookies.set({
       name: "access_token",
       value: token,

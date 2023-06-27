@@ -11,7 +11,7 @@ export async function fetchGetApi(url: string) {
 
   const data = await res.json();
 
-  return NextResponse.json(data);
+  return data;
 }
 
 export async function fetchPostApi(body: object, url: string) {
@@ -25,5 +25,20 @@ export async function fetchPostApi(body: object, url: string) {
 
   const data = await res.json();
 
-  return NextResponse.json(data);
+  return data;
+}
+
+export async function fetchLoginApi(body: object) {
+  const res: UserClient = await fetchPostApi(body, "/users/login");
+  return res;
+}
+
+export async function fetchGetUserInfoApi() {
+  const res: UserClient = await fetchGetApi("/users");
+  return res;
+}
+
+export async function fecthTodoApi(body: CreateTodoRequest) {
+  const res = await fetchPostApi(body, "/todos");
+  return res;
 }
