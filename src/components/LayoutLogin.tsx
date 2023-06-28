@@ -1,21 +1,31 @@
 "use client";
 
-import useJoinMutation from "@/queries/useJoinMutation";
 import useLoginMutation from "@/queries/useLoginMutation";
+import useUsersQuery from "@/queries/useUsersQuery";
+import {fetchJoinApi} from "@/utils/api";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 import React, {useEffect, useState} from "react";
 
 export default function LayoutLogin() {
+  const router = useRouter();
   const [join, setJoin] = useState(false);
   const [logindId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginPasswordCheck, setLoginPasswordCheck] = useState("");
-  const loginMutation = useLoginMutation();
-  const joinMutation = useJoinMutation();
+
+  const {data: user} = useUsersQuery();
+  const {mutate: loginUser} = useLoginMutation();
 
   useEffect(() => {
     setJoin(location.pathname == "/join");
   }, []);
+
+  useEffect(() => {
+    if (!join && user?.id) {
+      router.push("/todos");
+    }
+  }, [user]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.id == "input-login-password") setLoginPassword(e.target.value);
@@ -38,9 +48,12 @@ export default function LayoutLogin() {
         return;
       }
 
-      joinMutation.mutate({login_id: logindId, login_password: loginPassword});
+      const join_res = await fetchJoinApi({login_id: logindId, login_password: loginPassword});
+      if (join_res) {
+        router.push("/login");
+      }
     } else {
-      loginMutation.mutate({login_id: logindId, login_password: loginPassword});
+      await loginUser({login_id: logindId, login_password: loginPassword});
     }
   };
 

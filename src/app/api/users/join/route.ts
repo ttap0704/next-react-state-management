@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       pass: false,
       message: "중복된 아이디가 존재합니다.",
+      data: false,
     });
   }
 
@@ -28,11 +29,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       pass: true,
       message: "회원가입이 완료되었습니다.",
+      data: true,
     });
   } else {
     return NextResponse.json({
       pass: false,
       message: "오류로 인해 회원가입이 실패하였습니다.",
+      data: false,
     });
   }
 }

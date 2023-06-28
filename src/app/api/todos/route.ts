@@ -6,43 +6,49 @@ export async function GET(request: NextRequest) {
   const search_params = new URLSearchParams(url.search);
   const user_id = search_params.get("user_id");
 
+  let pass = false,
+    message = "",
+    data: TodoModel[] = [];
+
   if (user_id) {
     const todos: TodoModel[] = await db.query({
       sql: "SELECT * FROM todos WHERE user_id = ?",
       values: [user_id],
     });
-    return NextResponse.json({
-      pass: true,
-      message: "",
-      data: todos,
-    });
+    pass = true;
+    data = todos;
   } else {
-    return NextResponse.json({
-      pass: false,
-      message: "잘못된 요청입니다.",
-      data: [],
-    });
+    message = "잘못된 요청입니다.";
   }
+
+  const res: ApiResponseDefault = {pass, message, data};
+  return NextResponse.json(res);
 }
 
 export async function POST(request: NextRequest) {
-  const data: ApiRequestBody = await request.json();
+  const body: ApiRequestBody = await request.json();
 
-  const create_data: CreateTodoRequest = data.data;
+  const create_data: CreateTodoRequest = body.data;
   const create_res: any = await db.query({
     sql: "INSERT INTO todos (contents, user_id) VALUES (?, ?)",
     values: [create_data.contents, create_data.user_id],
   });
 
+  let pass = false,
+    message = "",
+    data = false;
+
   if (create_res.affectedRows == 1) {
-    return NextResponse.json({
-      pass: true,
-      message: "TODO가 등록되었습니다.",
-    });
+    pass = true;
+    data = true;
+    message = "TODO가 등록되었습니다.";
   } else {
-    return NextResponse.json({
-      pass: false,
-      message: "오류로 인해 등록이 실패하였습니다.",
-    });
+    message = "오류로 인해 등록이 실패하였습니다";
   }
+
+  return NextResponse.json({
+    pass,
+    message,
+    data,
+  });
 }

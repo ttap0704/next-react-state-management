@@ -1,7 +1,7 @@
 type ApiResponseDefault = {
   pass: boolean;
   message: string;
-  data: any;
+  data: any | any[] | object;
 };
 
 type ApiRequestBody = {

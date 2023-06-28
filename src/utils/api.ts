@@ -10,11 +10,11 @@ export async function fetchGetApi(url: string) {
   });
 
   const data: ApiResponseDefault = await res.json();
-  if (!data.pass && data.message) {
+  if (data.message) {
     alert(data.message);
   }
 
-  return data;
+  return data.data;
 }
 
 export async function fetchPostApi(body: object, url: string) {
@@ -27,15 +27,20 @@ export async function fetchPostApi(body: object, url: string) {
   });
 
   const data: ApiResponseDefault = await res.json();
-  if (!data.pass && data.message) {
+  if (data.message) {
     alert(data.message);
   }
 
-  return data;
+  return data.data;
 }
 
 export async function fetchLoginApi(body: object) {
   const res: UserClient = await fetchPostApi(body, "/users/login");
+  return res;
+}
+
+export async function fetchJoinApi(body: object) {
+  const res: boolean = await fetchPostApi(body, "/users/join");
   return res;
 }
 
@@ -50,6 +55,6 @@ export async function fetchGetTodosApi(user_id: number) {
 }
 
 export async function fecthTodoApi(body: CreateTodoRequest) {
-  const res = await fetchPostApi(body, "/todos");
+  const res: boolean = await fetchPostApi(body, "/todos");
   return res;
 }

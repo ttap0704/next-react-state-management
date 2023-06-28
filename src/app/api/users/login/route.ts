@@ -7,7 +7,8 @@ export async function POST(request: NextRequest) {
   const data: ApiRequestBody = await request.json();
 
   const login_data: {login_id: string; login_password: string} = data.data;
-  let pass = false;
+  let pass = false,
+    message = "";
   const user_data: UserModel[] = await db.query({
     sql: "SELECT id, login_id, password, created_at FROM users WHERE login_id = ?",
     values: [login_data.login_id],
@@ -16,6 +17,8 @@ export async function POST(request: NextRequest) {
   if (user_data.length == 1) {
     const check_password = await isHashValid(login_data.login_password, user_data[0].password);
     pass = check_password;
+  } else {
+    message = "아이디와 비밀번호를 확인해주세요.";
   }
 
   const user: UserClient = {
@@ -24,7 +27,9 @@ export async function POST(request: NextRequest) {
     created_at: pass ? user_data[0].created_at : "",
   };
 
-  const response = NextResponse.json({pass, message: "", user});
+  const res: ApiResponseDefault = {pass, message, data: user};
+  const response = NextResponse.json(res);
+
   if (pass) {
     const token = await sign(JSON.stringify({...user}));
     response.cookies.set({
