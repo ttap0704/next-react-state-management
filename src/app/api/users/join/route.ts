@@ -1,8 +1,8 @@
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import {hash} from "../../bcrypt";
 import db from "../../db";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const data: ApiRequestBody = await request.json();
   const join_data = {...data.data};
 

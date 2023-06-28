@@ -1,14 +1,31 @@
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import db from "../db";
 
-export async function GET(request: Request) {
-  return NextResponse.json({
-    pass: false,
-    message: "terst",
-  });
+export async function GET(request: NextRequest) {
+  const url = new URL(request.url);
+  const search_params = new URLSearchParams(url.search);
+  const user_id = search_params.get("user_id");
+
+  if (user_id) {
+    const todos: TodoModel[] = await db.query({
+      sql: "SELECT * FROM todos WHERE user_id = ?",
+      values: [user_id],
+    });
+    return NextResponse.json({
+      pass: true,
+      message: "",
+      data: todos,
+    });
+  } else {
+    return NextResponse.json({
+      pass: false,
+      message: "잘못된 요청입니다.",
+      data: [],
+    });
+  }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const data: ApiRequestBody = await request.json();
 
   const create_data: CreateTodoRequest = data.data;

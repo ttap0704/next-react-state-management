@@ -11,6 +11,7 @@ const useCreateTodosMudation = () => {
   return useMutation(fetcher, {
     onSuccess: async (res: {pass: boolean; message: string}) => {
       alert(res.message);
+      return res.pass;
     },
   });
 };

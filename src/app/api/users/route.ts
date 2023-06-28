@@ -1,8 +1,8 @@
 import {cookies} from "next/dist/client/components/headers";
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import {verify} from "../jwt";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const token = cookies().get("access_token");
   if (token) {
     try {
@@ -18,9 +18,8 @@ export async function GET(request: Request) {
   return NextResponse.json(null);
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const data = request.json();
-  console.log(data);
 
   return data;
 }

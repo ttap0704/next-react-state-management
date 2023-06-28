@@ -12,11 +12,9 @@ const useLoginMutation = () => {
   return useMutation(fetcher, {
     onSuccess: async (res: any) => {
       const user_data: UserClient = res;
-      if (user_data.pass) {
+      if (user_data.login_id) {
         query_client.invalidateQueries([userQueryKey]);
         window.location.replace("/todos");
-      } else {
-        alert("아이디와 비밀번호를 확인해주세요.");
       }
     },
   });

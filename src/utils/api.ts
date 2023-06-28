@@ -9,7 +9,10 @@ export async function fetchGetApi(url: string) {
     },
   });
 
-  const data = await res.json();
+  const data: ApiResponseDefault = await res.json();
+  if (!data.pass && data.message) {
+    alert(data.message);
+  }
 
   return data;
 }
@@ -23,7 +26,10 @@ export async function fetchPostApi(body: object, url: string) {
     body: JSON.stringify({time: new Date().toISOString(), data: body}),
   });
 
-  const data = await res.json();
+  const data: ApiResponseDefault = await res.json();
+  if (!data.pass && data.message) {
+    alert(data.message);
+  }
 
   return data;
 }
@@ -35,6 +41,11 @@ export async function fetchLoginApi(body: object) {
 
 export async function fetchGetUserInfoApi() {
   const res: UserClient = await fetchGetApi("/users");
+  return res;
+}
+
+export async function fetchGetTodosApi(user_id: number) {
+  const res: TodoModel[] = await fetchGetApi(`/todos?user_id=${user_id}`);
   return res;
 }
 

@@ -1,3 +1,9 @@
+type ApiResponseDefault = {
+  pass: boolean;
+  message: string;
+  data: any;
+};
+
 type ApiRequestBody = {
   time: string;
   data: any;
@@ -14,7 +20,6 @@ type UserClient = {
   id: number;
   login_id: string;
   created_at: string;
-  pass: boolean;
 };
 
 type CreateTodoRequest = {
@@ -22,7 +27,7 @@ type CreateTodoRequest = {
   contents: string;
 };
 
-type Todo = {
+type TodoModel = {
   id: number;
   user_id: number;
   contents: string;

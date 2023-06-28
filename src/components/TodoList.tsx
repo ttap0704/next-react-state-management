@@ -1,15 +1,16 @@
 "use client";
 
 import useTodosQuery from "@/queries/useTodosQuery";
-import TodoInput from "./TodoInput";
+import useUsersQuery from "@/queries/useUsersQuery";
+import {useEffect} from "react";
 
 export default function TodoList() {
-  const test = useTodosQuery();
+  const user = useUsersQuery();
+  const todos = useTodosQuery(user.data?.id as number);
 
-  return (
-    <div id="todo-wrapper">
-      <TodoInput />
-      testestestes
-    </div>
-  );
+  useEffect(() => {
+    console.log(todos);
+  }, []);
+
+  return <div>{}</div>;
 }

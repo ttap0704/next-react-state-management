@@ -16,14 +16,7 @@ export default function TodoInput() {
         return;
       }
 
-      console.log("user_data", data);
-
-      const res = await mutate({contents: contents_input.current.value, user_id: data?.id as number});
-      console.log(res);
-
-      // const create_data: CreateTodoRequest = {
-      //   user_id:
-      // }
+      const res = mutate({contents: contents_input.current.value, user_id: data?.id as number});
     }
   };
 

@@ -1,9 +1,9 @@
-import {NextResponse} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 import {isHashValid} from "../../bcrypt";
 import db from "../../db";
 import {sign} from "../../jwt";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const data: ApiRequestBody = await request.json();
 
   const login_data: {login_id: string; login_password: string} = data.data;
@@ -22,10 +22,9 @@ export async function POST(request: Request) {
     id: pass ? user_data[0].id : 0,
     login_id: pass ? user_data[0].login_id : "",
     created_at: pass ? user_data[0].created_at : "",
-    pass,
   };
 
-  const response = NextResponse.json(user);
+  const response = NextResponse.json({pass, message: "", user});
   if (pass) {
     const token = await sign(JSON.stringify({...user}));
     response.cookies.set({
