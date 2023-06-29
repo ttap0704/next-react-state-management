@@ -1,23 +1,17 @@
 // quires/useLoginMutation.ts
-import {fetchPostApi} from "@/utils/api";
+import {fetchLoginApi} from "@/utils/api";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {NextResponse} from "next/server";
-import {QUERY_KEY as userQueryKey} from "./useUsersQuery";
+import {QUERY_KEY as users_query_key} from "./useUsersQuery";
 
-const fetcher = (data: object) => fetchPostApi(data, "/users/login");
+const fetcher = (data: object) => fetchLoginApi(data);
 
-const useLoginMutation = (data: object) => {
-  const queryClient = useQueryClient();
+const useLoginMutation = () => {
+  const query_client = useQueryClient();
 
   return useMutation(fetcher, {
-    onSuccess: async (res: NextResponse) => {
-      const user_data: User = await res.json();
-      if (user_data.pass) {
-        queryClient.invalidateQueries([userQueryKey]);
-        localStorage.setItem("user", JSON.stringify(user_data));
-        window.location.replace("/todos");
-      } else {
-        alert("아이디와 비밀번호를 확인해주세요.");
+    onSuccess: async (res: UserClient) => {
+      if (res.login_id) {
+        query_client.invalidateQueries([users_query_key]);
       }
     },
   });

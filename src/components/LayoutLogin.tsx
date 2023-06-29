@@ -1,22 +1,31 @@
 "use client";
 
-import useJoinMutation from "@/queries/useJoinMutation";
 import useLoginMutation from "@/queries/useLoginMutation";
 import useUsersQuery from "@/queries/useUsersQuery";
-import {fetchGetApi} from "@/utils/api";
+import {fetchJoinApi} from "@/utils/api";
+import Link from "next/link";
+import {useRouter} from "next/navigation";
 import React, {useEffect, useState} from "react";
 
 export default function LayoutLogin() {
+  const router = useRouter();
   const [join, setJoin] = useState(false);
   const [logindId, setLoginId] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginPasswordCheck, setLoginPasswordCheck] = useState("");
-  const loginMutation = useLoginMutation({login_id: logindId, login_password: loginPassword});
-  const joinMutation = useJoinMutation({login_id: logindId, login_password: loginPassword});
+
+  const {data: user} = useUsersQuery();
+  const {mutate: loginUser} = useLoginMutation();
 
   useEffect(() => {
     setJoin(location.pathname == "/join");
   }, []);
+
+  useEffect(() => {
+    if (!join && user?.id) {
+      router.push("/todos");
+    }
+  }, [user]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.id == "input-login-password") setLoginPassword(e.target.value);
@@ -39,14 +48,17 @@ export default function LayoutLogin() {
         return;
       }
 
-      joinMutation.mutate({login_id: logindId, login_password: loginPassword});
+      const join_res = await fetchJoinApi({login_id: logindId, login_password: loginPassword});
+      if (join_res) {
+        router.push("/login");
+      }
     } else {
-      loginMutation.mutate({login_id: logindId, login_password: loginPassword});
+      await loginUser({login_id: logindId, login_password: loginPassword});
     }
   };
 
   return (
-    <div id="login-wrapper">
+    <div id="login-wrapper" className="main-contents">
       <input
         id="input-login-id"
         className="login-input"
@@ -77,6 +89,7 @@ export default function LayoutLogin() {
       <button id="login-button" onClick={formHandler}>
         {join ? "회원가입" : "로그인"}
       </button>
+      <Link href={join ? "/login" : "/join"}>{join ? "로그인하러 가기" : "회원가입하러 가기"}</Link>
     </div>
   );
 }

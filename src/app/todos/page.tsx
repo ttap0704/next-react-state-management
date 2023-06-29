@@ -1,3 +1,11 @@
+import TodoInput from "@/components/TodoInput";
+import TodoList from "@/components/TodoList";
+
 export default function Todos() {
-  return <>todos</>;
+  return (
+    <div id="todo-wrapper" className="main-contents">
+      <TodoInput />
+      <TodoList />
+    </div>
+  );
 }
