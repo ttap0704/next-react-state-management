@@ -9,7 +9,9 @@ const fetcher = (props: UseQueryOptions) => {
 };
 
 const useTodosQuery = (user_id: number) => {
-  return useQuery([QUERY_KEY, user_id], fetcher);
+  return useQuery([QUERY_KEY, user_id], fetcher, {
+    enabled: user_id !== undefined && user_id !== null,
+  });
 };
 
 export default useTodosQuery;

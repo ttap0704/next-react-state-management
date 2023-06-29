@@ -27,6 +27,11 @@ type CreateTodoRequest = {
   contents: string;
 };
 
+type UpdateTodoRequest = {
+  contents?: string;
+  todo?: number;
+};
+
 type TodoModel = {
   id: number;
   user_id: number;

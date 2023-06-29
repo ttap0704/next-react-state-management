@@ -58,7 +58,7 @@ export default function LayoutLogin() {
   };
 
   return (
-    <div id="login-wrapper">
+    <div id="login-wrapper" className="main-contents">
       <input
         id="input-login-id"
         className="login-input"

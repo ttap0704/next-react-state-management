@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
 
   if (user_id) {
     const todos: TodoModel[] = await db.query({
-      sql: "SELECT * FROM todos WHERE user_id = ?",
+      sql: "SELECT * FROM todos WHERE user_id = ?;",
       values: [user_id],
     });
     pass = true;

@@ -11,24 +11,26 @@ export async function middleware(request: NextRequest) {
 
   if (request.nextUrl.pathname.startsWith("/api")) {
     const not_loigin_server_path = ["/users/login", "/users/join"];
-    if (!not_loigin_server_path.includes(path) && access_token) {
-      let pass = false;
+    if (!not_loigin_server_path.includes(path)) {
+      if (access_token) {
+        let pass = false;
 
-      // 기간 만료되면 error 발생하여 try/catch로 처리
-      try {
-        const verify_res = await verify(access_token.value);
-        if (verify_res) pass = true;
-      } catch (err) {
-        pass = false;
-      }
+        // 기간 만료되면 error 발생하여 try/catch로 처리
+        try {
+          const verify_res = await verify(access_token.value);
+          if (verify_res) pass = true;
+        } catch (err) {
+          pass = false;
+        }
 
-      if (!pass) {
-        const response: NextResponse = NextResponse.redirect(new URL("/login", request.url), {
-          headers: requestHeaders,
-        });
+        if (!pass) {
+          const response: NextResponse = NextResponse.redirect(new URL("/login", request.url), {
+            headers: requestHeaders,
+          });
 
-        response.cookies.set("access_token", "", {expires: new Date("1001/01/01")});
-        return response;
+          response.cookies.set("access_token", "", {expires: new Date("1001/01/01")});
+          return response;
+        }
       }
     }
   } else {
@@ -37,7 +39,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/login", request.url), {
         headers: requestHeaders,
       });
-    } else if (not_loigin_client_path.includes(path) && access_token) {
+    } else if ((not_loigin_client_path.includes(path) || path == "/") && access_token) {
       return NextResponse.redirect(new URL("/todos", request.url), {
         headers: requestHeaders,
       });
