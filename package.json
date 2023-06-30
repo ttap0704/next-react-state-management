@@ -36,6 +36,8 @@
     "@types/bcrypt": "^5.0.0",
     "cypress": "^12.16.0",
     "cypress-axe": "^1.4.0",
+    "postcss-import": "^15.1.0",
     "postcss-nesting": "^11.3.0"
-  }
+  },
+  "packageManager": "yarn@3.6.0"
 }
