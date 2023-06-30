@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "e2e": "start-server-and-test dev http://localhost:3000 \"cypress open --e2e\"",
+    "e2e:headless": "start-server-and-test dev http://localhost:3000 \"cypress run --e2e\"",
+    "component": "cypress open --component",
+    "component:headless": "cypress run --component",
+    "cypress:chrome": "cypress run --browser chrome"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.29.14",
@@ -29,6 +34,8 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "cypress": "^12.16.0",
+    "cypress-axe": "^1.4.0",
     "postcss-nesting": "^11.3.0"
   }
 }
