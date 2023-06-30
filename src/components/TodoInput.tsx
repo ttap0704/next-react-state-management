@@ -23,8 +23,10 @@ export default function TodoInput() {
 
   return (
     <div id="todo-input-wrapper">
-      <input type="text" ref={contents_input} />
-      <button onClick={createTodo}>CREATE</button>
+      <input id="input-todo-contents" type="text" ref={contents_input} />
+      <button id="create-todo-button" onClick={createTodo}>
+        CREATE
+      </button>
     </div>
   );
 }
