@@ -11,7 +11,7 @@ const useUpdateTodosMudation = () => {
   return useMutation(fetcher, {
     onSuccess: async (res) => {
       if (res) {
-        query_client.setQueryData([todos_query_key, res.user_id], (prev) => {
+        query_client.setQueryData([todos_query_key, res.user_id], (prev: any) => {
           return (prev as TodoModel[]).map((item) => (item.id == res.id ? res : item));
         });
       }

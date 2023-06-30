@@ -1,6 +1,6 @@
-import {defineConfig} from "cypress";
+const {defineConfig} = require("cypress");
 
-export default defineConfig({
+module.exports = defineConfig({
   projectId: "next-react-state-management",
   component: {
     specPattern: "src/**/*.cy.{js,jsx,ts,tsx}",
@@ -14,8 +14,5 @@ export default defineConfig({
     specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
     baseUrl: "http://localhost:3000/",
     supportFile: false,
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
   },
 });
