@@ -17,8 +17,6 @@ export async function POST(request: NextRequest) {
   if (user_data.length == 1) {
     const check_password = await isHashValid(login_data.login_password, user_data[0].password);
     pass = check_password;
-  } else {
-    message = "아이디와 비밀번호를 확인해주세요.";
   }
 
   const user: UserClient = {
@@ -26,6 +24,8 @@ export async function POST(request: NextRequest) {
     login_id: pass ? user_data[0].login_id : "",
     created_at: pass ? user_data[0].created_at : "",
   };
+
+  if (!pass) message = "아이디와 비밀번호를 확인해주세요.";
 
   const res: ApiResponseDefault = {pass, message, data: user};
   const response = NextResponse.json(res);

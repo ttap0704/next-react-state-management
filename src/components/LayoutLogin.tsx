@@ -5,14 +5,15 @@ import useUsersQuery from "@/queries/useUsersQuery";
 import {fetchJoinApi} from "@/utils/api";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 export default function LayoutLogin() {
   const router = useRouter();
   const [join, setJoin] = useState(false);
-  const [logindId, setLoginId] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [loginPasswordCheck, setLoginPasswordCheck] = useState("");
+
+  const input_login_id = useRef<null | HTMLInputElement>(null);
+  const input_password = useRef<null | HTMLInputElement>(null);
+  const input_password_check = useRef<null | HTMLInputElement>(null);
 
   const {data: user} = useUsersQuery();
   const {mutate: loginUser} = useLoginMutation();
@@ -27,33 +28,31 @@ export default function LayoutLogin() {
     }
   }, [user]);
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.id == "input-login-password") setLoginPassword(e.target.value);
-    else if (e.target.id == "input-login-id") setLoginId(e.target.value);
-    else setLoginPasswordCheck(e.target.value);
-  };
-
   const formHandler = async () => {
     if (join) {
-      if (logindId.length < 6) {
+      if (!input_login_id.current || !input_password.current || !input_password_check.current) return;
+      if (input_login_id.current.value.length < 6) {
         alert("아이디는 6자 이상으로 설정해주세요.");
         return;
       }
-      if (loginPassword != loginPasswordCheck) {
+      if (input_password.current.value != input_password_check.current.value) {
         alert("비밀번호가 맞지 않습니다.");
         return;
       }
-      if (loginPassword.length < 8) {
+      if (input_password.current.value.length < 8) {
         alert("비밀번호는 8자 이상으로 설정해주세요.");
         return;
       }
-
-      const join_res = await fetchJoinApi({login_id: logindId, login_password: loginPassword});
+      const join_res = await fetchJoinApi({
+        login_id: input_login_id.current.value,
+        login_password: input_password.current.value,
+      });
       if (join_res) {
         router.push("/login");
       }
     } else {
-      await loginUser({login_id: logindId, login_password: loginPassword});
+      if (!input_login_id.current || !input_password.current) return;
+      await loginUser({login_id: input_login_id.current.value, login_password: input_password.current.value});
     }
   };
 
@@ -62,26 +61,23 @@ export default function LayoutLogin() {
       <input
         id="input-login-id"
         className="login-input"
-        value={logindId}
+        ref={input_login_id}
         type="text"
-        onChange={handleInput}
         placeholder="아이디를 입력해주세요."
       />
       <input
         id="input-login-password"
         className="login-input"
-        value={loginPassword}
+        ref={input_password}
         type="password"
-        onChange={handleInput}
         placeholder="비밀번호를 입력해주세요."
       />
       {join ? (
         <input
           id="input-login-password-check"
           className="login-input"
-          value={loginPasswordCheck}
+          ref={input_password_check}
           type="password"
-          onChange={handleInput}
           placeholder="비밀번호를 다시 입력해주세요."
         />
       ) : null}
